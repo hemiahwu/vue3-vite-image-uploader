@@ -8,10 +8,10 @@
       </button>
     </div>
     <div class="row">
-      <div class="col-md-3" v-for="(item, index) in 6" :key="index">
+      <div class="col-md-3" v-for="(file, index) in files" :key="index">
         <div class="card mb-4">
           <img
-            v-if="true"
+            v-if="file.url"
             class="file-thumb"
             src="https://picsum.photos/id/1015/400/160"
           />
@@ -21,7 +21,7 @@
           <div class="card-footer">
             <div class="d-flex align-items-center">
               <icon-type-common />
-              <span class="file-name">File 8.png</span>
+              <span class="file-name">{{ file.name }}</span>
             </div>
           </div>
         </div>
@@ -32,6 +32,16 @@
 
 <script setup>
 import ActionsBar from "../components/ActionsBar.vue";
+import axios from "axios";
+
+import { ref, onMounted } from "vue";
+
+const files = ref([]);
+
+onMounted(async () => {
+  const { data } = await axios.get("http://localhost:3031/files");
+  files.value = data;
+});
 </script>
 
 <style>
