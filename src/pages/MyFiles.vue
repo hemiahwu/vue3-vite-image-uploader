@@ -3,7 +3,7 @@
     <ActionsBar />
     <div class="d-flex justify-content-between align-items-center py-2">
       <h6 class="text-muted mb-0">文件</h6>
-      <SortToggler />
+      <SortToggler @sort-change="hanleSortChange($event)" />
     </div>
     <FilesList :files="files" />
   </div>
@@ -23,6 +23,10 @@ onMounted(async () => {
   const { data } = await axios.get("http://localhost:3031/files");
   files.value = data;
 });
+
+const hanleSortChange = () => {
+  console.log("first");
+};
 </script>
 
 <style>

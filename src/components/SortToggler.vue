@@ -12,8 +12,11 @@ const sort = reactive({
   order: "asc",
 });
 
+const emits = defineEmits(["sort-change"]);
+
 const toggle = () => {
   sort.order = sort.order === "asc" ? "desc" : "asc";
+  emits("sort-change");
 };
 </script>
 
