@@ -17,13 +17,21 @@ import axios from "axios";
 
 import { ref, onMounted, reactive, watchEffect, watch } from "vue";
 
+const props = defineProps({
+  q: {
+    type: String,
+  },
+});
+
 const files = ref([]);
 const query = reactive({
   _sort: "name",
   _order: "asc",
+  q: "",
 });
 
 watchEffect(async () => {
+  query.q = props.q;
   const { data } = await axios.get(
     `http://localhost:3031/files?${new URLSearchParams(query)}`
   );

@@ -3,19 +3,19 @@
     <div class="container">
       <a class="navbar-brand" href="/"><strong>Vue</strong>图片上传</a>
 
-      <form class="form-inline mt-2 mt-md-0">
-        <input
-          class="form-control"
-          type="text"
-          placeholder="Search in Drive"
-          aria-label="Search"
-        />
-      </form>
+      <SearchForm @handleValueQ="sendQToApp($event)" />
     </div>
   </nav>
 </template>
 
 <script setup>
+import SearchForm from "./SearchForm.vue";
+
+const emits = defineEmits(["handleValueQ"]);
+
+const sendQToApp = (value) => {
+  emits("handleValueQ", value);
+};
 </script>
 
 <style>
