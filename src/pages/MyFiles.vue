@@ -1,8 +1,11 @@
 <template>
-  <div class="container py-3">上传按钮, 图片,删除修改等等</div>
+  <div class="container py-3">
+    <ActionsBar />
+  </div>
 </template>
 
 <script setup>
+import ActionsBar from "../components/ActionsBar.vue";
 </script>
 
 <style>
