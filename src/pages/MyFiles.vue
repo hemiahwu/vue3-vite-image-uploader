@@ -15,17 +15,38 @@ import FilesList from "../components/files/FilesList.vue";
 import SortToggler from "../components/SortToggler.vue";
 import axios from "axios";
 
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive, watchEffect, watch } from "vue";
 
 const files = ref([]);
+const query = reactive({
+  _sort: "name",
+  _order: "asc",
+});
 
-onMounted(async () => {
-  const { data } = await axios.get("http://localhost:3031/files");
+watchEffect(async () => {
+  const { data } = await axios.get(
+    `http://localhost:3031/files?${new URLSearchParams(query)}`
+  );
   files.value = data;
 });
 
-const hanleSortChange = () => {
-  console.log("first");
+// watch(
+//   () => query._order,
+//   async () => {
+//     const { data } = await axios.get(
+//       `http://localhost:3031/files?${new URLSearchParams(query)}`
+//     );
+//     files.value = data;
+//   },
+//   {
+//     immediate: true,
+//   }
+// );
+
+const hanleSortChange = (payload) => {
+  // console.log(payload);
+  query._sort = payload.column;
+  query._order = payload.order;
 };
 </script>
 

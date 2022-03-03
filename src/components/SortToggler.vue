@@ -16,7 +16,7 @@ const emits = defineEmits(["sort-change"]);
 
 const toggle = () => {
   sort.order = sort.order === "asc" ? "desc" : "asc";
-  emits("sort-change");
+  emits("sort-change", sort);
 };
 </script>
 
