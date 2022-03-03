@@ -1,8 +1,9 @@
 <script setup>
+import Navbar from "./components/Navbar.vue";
 </script>
 
 <template>
-  <h1>图片上传</h1>
+  <Navbar />
 </template>
 
 <style>
