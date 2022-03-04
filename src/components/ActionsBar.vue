@@ -14,8 +14,13 @@
       上传文件
     </button>
 
-    <div class="action-buttons">
-      <button type="button" class="rounded-button" title="Rename">
+    <div class="action-buttons" v-show="selectedItems.length">
+      <button
+        v-show="selectedItems.length === 1"
+        type="button"
+        class="rounded-button"
+        title="Rename"
+      >
         <icon-pencil />
       </button>
       <button type="button" class="rounded-button" title="Remove selected">
@@ -25,4 +30,9 @@
   </div>
 </template>
 <script setup>
+const props = defineProps({
+  selectedItems: {
+    type: Array,
+  },
+});
 </script>

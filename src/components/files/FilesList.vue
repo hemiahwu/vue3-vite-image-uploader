@@ -17,9 +17,12 @@ import { reactive } from "vue";
 
 const selectedItems = reactive(new Set());
 
+const emits = defineEmits(["select-change"]);
+
 const selectOne = (item) => {
   selectedItems.clear();
   selectedItems.add(item);
+  emits("select-change", selectedItems);
 };
 
 const selectMultiple = (item) => {
@@ -28,10 +31,12 @@ const selectMultiple = (item) => {
   } else {
     selectedItems.add(item);
   }
+  emits("select-change", selectedItems);
 };
 
 const clearSelected = () => {
   selectedItems.clear();
+  emits("select-change", selectedItems);
 };
 
 const isSelected = (item) => selectedItems.has(item);
