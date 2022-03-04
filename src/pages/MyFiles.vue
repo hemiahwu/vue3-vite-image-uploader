@@ -18,6 +18,11 @@
       :show="showModal && selectedItems.length === 1"
       @hide="showModal = false"
     >
+      <FileRenameForm
+        :file="selectedItems[0]"
+        @file-updated="handleFileUpdate($event)"
+        @close="showModal = false"
+      />
     </app-modal>
   </div>
 </template>
@@ -27,6 +32,7 @@ import ActionsBar from "../components/ActionsBar.vue";
 import FilesList from "../components/files/FilesList.vue";
 import SortToggler from "../components/SortToggler.vue";
 import SearchForm from "../components/SearchForm.vue";
+import FileRenameForm from "../components/files/FileRenameForm.vue";
 import axios from "axios";
 
 import { ref, onMounted, reactive, watchEffect, watch } from "vue";
@@ -77,6 +83,12 @@ const removeItem = async (item, files) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+const handleFileUpdate = (file) => {
+  const oldFile = selectedItems.value[0];
+  const index = files.value.findIndex((file) => file.id === oldFile.id);
+  files.value.splice(index, 1, file);
 };
 </script>
 
