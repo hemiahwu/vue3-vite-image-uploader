@@ -20,6 +20,7 @@
         type="button"
         class="rounded-button"
         title="Rename"
+        @click="$emit('rename')"
       >
         <icon-pencil />
       </button>

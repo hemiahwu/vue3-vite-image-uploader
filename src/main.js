@@ -1,11 +1,14 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import icons from './components/icons/all'
+import { createApp } from "vue";
+import App from "./App.vue";
+import icons from "./components/icons/all";
+import Modal from "./components/Modal.vue";
 
-const app = createApp(App)
+const app = createApp(App);
 
 for (const [key, value] of Object.entries(icons)) {
-    app.component(key, value)
+  app.component(key, value);
 }
 
-app.mount('#app')
+app.component("app-modal", Modal);
+
+app.mount("#app");

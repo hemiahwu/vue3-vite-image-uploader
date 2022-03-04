@@ -1,6 +1,10 @@
 <template>
   <div class="container py-3">
-    <ActionsBar :selectedItems="selectedItems" @remove="hadnleRemove" />
+    <ActionsBar
+      :selectedItems="selectedItems"
+      @remove="hadnleRemove"
+      @rename="showModal = true"
+    />
     <div class="d-flex justify-content-between align-items-center py-2">
       <h6 class="text-muted mb-0">文件</h6>
       <SortToggler @sort-change="hanleSortChange($event)" />
@@ -9,6 +13,12 @@
       <SearchForm v-model="query.q" />
     </teleport>
     <FilesList :files="files" @select-change="handleSelectChange($event)" />
+    <app-modal
+      title="文件重命名"
+      :show="showModal && selectedItems.length === 1"
+      @hide="showModal = false"
+    >
+    </app-modal>
   </div>
 </template>
 
@@ -23,6 +33,7 @@ import { ref, onMounted, reactive, watchEffect, watch } from "vue";
 
 const files = ref([]);
 const selectedItems = ref([]);
+const showModal = ref(false);
 
 const query = reactive({
   _sort: "name",
