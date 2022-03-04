@@ -1,6 +1,6 @@
 <template>
   <div class="container py-3">
-    <ActionsBar :selectedItems="selectedItems" />
+    <ActionsBar :selectedItems="selectedItems" @remove="hadnleRemove" />
     <div class="d-flex justify-content-between align-items-center py-2">
       <h6 class="text-muted mb-0">文件</h6>
       <SortToggler @sort-change="hanleSortChange($event)" />
@@ -44,6 +44,28 @@ const hanleSortChange = (payload) => {
 
 const handleSelectChange = (items) => {
   selectedItems.value = Array.from(items);
+};
+
+const hadnleRemove = () => {
+  if (confirm("Are you sure?")) {
+    selectedItems.value.forEach((item) => removeItem(item, files));
+  }
+};
+
+const removeItem = async (item, files) => {
+  console.log(item);
+  try {
+    const response = await axios.delete(
+      `http://localhost:3031/files/${item.id}`
+    );
+    // console.log(response);
+    if (response.status === 200) {
+      const index = files.value.findIndex((file) => file.id === item.id);
+      files.value.splice(index, 1);
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>
 

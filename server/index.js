@@ -3,20 +3,20 @@ const path = require("path");
 const cors = require("cors");
 var multer = require("multer");
 var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        // 文件存储地址 uploads
-        cb(null, path.join(__dirname, "./uploads"));
-    },
-    filename: function (req, file, cb) {
-        const fileName = file.originalname.toLowerCase().split(" ").join("-");
-        cb(null, fileName);
-    },
+  destination: function (req, file, cb) {
+    // 文件存储地址 uploads
+    cb(null, path.join(__dirname, "./uploads"));
+  },
+  filename: function (req, file, cb) {
+    const fileName = file.originalname.toLowerCase().split(" ").join("-");
+    cb(null, fileName);
+  },
 });
 
 var upload = multer({
-    storage,
-    fileFilter: validateFileType,
-    /*limits:{
+  storage,
+  fileFilter: validateFileType,
+  /*limits:{
       fileSize: 1024 * 1024
     }*/
 }).single("file");
@@ -28,42 +28,44 @@ const port = 3031;
 
 server.options("*", cors());
 server.post("/files", upload, function (req, res, next) {
-    const host = "http://localhost:" + port;
+  const host = "http://localhost:" + port;
 
-    req.body.name = req.file.originalname;
-    req.body.mimeType = req.file.mimetype;
-    req.body.url = host + "/uploads/" + req.file.filename;
-    req.body.path = req.file.path;
-    req.body.createdAt = Date.now();
+  req.body.name = req.file.originalname;
+  req.body.mimeType = req.file.mimetype;
+  req.body.url = host + "/uploads/" + req.file.filename;
+  req.body.path = req.file.path;
+  req.body.createdAt = Date.now();
 
-    next();
+  next();
 });
 
 server.delete("/files/:id", (req, res, next) => {
-    const fs = require("fs");
-    const file = router.db
-        .get("files")
-        .find({ id: parseInt(req.params.id) })
-        .value();
+  const fs = require("fs");
+  const file = router.db
+    .get("files")
+    .find({ id: parseInt(req.params.id) })
+    .value();
 
-    try {
-        fs.unlinkSync(file.path);
-    } catch (err) {
-        console.error(err);
+  try {
+    if (file.path) {
+      fs.unlinkSync(file.path);
     }
+  } catch (err) {
+    console.error(err);
+  }
 
-    next();
+  next();
 });
 
 server.use(middlewares);
 server.use(router);
 server.listen(port, () => {
-    console.log("JSON Server is running at port ", port);
+  console.log("JSON Server is running at port ", port);
 });
 
 function validateFileType(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif|doc|docx|pdf|xls|xlsx)$/)) {
-        return cb(new Error("您尝试上传的文件不合法"));
-    }
-    cb(null, true);
+  if (!file.originalname.match(/\.(jpg|jpeg|png|gif|doc|docx|pdf|xls|xlsx)$/)) {
+    return cb(new Error("您尝试上传的文件不合法"));
+  }
+  cb(null, true);
 }

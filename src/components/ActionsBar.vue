@@ -23,7 +23,12 @@
       >
         <icon-pencil />
       </button>
-      <button type="button" class="rounded-button" title="Remove selected">
+      <button
+        @click="$emit('remove')"
+        type="button"
+        class="rounded-button"
+        title="Remove selected"
+      >
         <icon-trash />
       </button>
     </div>
