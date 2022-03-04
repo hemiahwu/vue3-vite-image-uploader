@@ -1,11 +1,11 @@
 <template>
-  <div class="row">
+  <div class="row" @click="clearSelected">
     <FileItem
       v-for="(file, index) in files"
       :key="index"
       :file="file"
-      @click.exact="selectOne(file)"
-      @click.meta.exact="selectMultiple(file)"
+      @click.exact.stop="selectOne(file)"
+      @click.meta.exact.stop="selectMultiple(file)"
       :class="{ 'selected-file': isSelected(file) }"
     />
   </div>
@@ -27,8 +27,11 @@ const selectMultiple = (item) => {
     selectedItems.delete(item);
   } else {
     selectedItems.add(item);
-    console.log(selectedItems);
   }
+};
+
+const clearSelected = () => {
+  selectedItems.clear();
 };
 
 const isSelected = (item) => selectedItems.has(item);
