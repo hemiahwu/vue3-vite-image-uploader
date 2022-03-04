@@ -5,6 +5,9 @@
       <h6 class="text-muted mb-0">文件</h6>
       <SortToggler @sort-change="hanleSortChange($event)" />
     </div>
+    <teleport to="#search-form">
+      <SearchForm v-model="query.q" />
+    </teleport>
     <FilesList :files="files" />
   </div>
 </template>
@@ -13,15 +16,10 @@
 import ActionsBar from "../components/ActionsBar.vue";
 import FilesList from "../components/files/FilesList.vue";
 import SortToggler from "../components/SortToggler.vue";
+import SearchForm from "../components/SearchForm.vue";
 import axios from "axios";
 
 import { ref, onMounted, reactive, watchEffect, watch } from "vue";
-
-const props = defineProps({
-  q: {
-    type: String,
-  },
-});
 
 const files = ref([]);
 const query = reactive({
@@ -31,7 +29,6 @@ const query = reactive({
 });
 
 watchEffect(async () => {
-  query.q = props.q;
   const { data } = await axios.get(
     `http://localhost:3031/files?${new URLSearchParams(query)}`
   );
