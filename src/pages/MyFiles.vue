@@ -24,6 +24,13 @@
         @close="showModal = false"
       />
     </app-modal>
+    <app-toast
+      :show="toast.show"
+      :message="toast.message"
+      type="success"
+      position="bottom-left"
+      @hide="toast.show = false"
+    />
   </div>
 </template>
 
@@ -47,6 +54,11 @@ const query = reactive({
   q: "",
 });
 
+const toast = reactive({
+  show: false,
+  message: "",
+});
+
 watchEffect(async () => {
   const { data } = await axios.get(
     `http://localhost:3031/files?${new URLSearchParams(query)}`
@@ -66,6 +78,8 @@ const handleSelectChange = (items) => {
 const hadnleRemove = () => {
   if (confirm("Are you sure?")) {
     selectedItems.value.forEach((item) => removeItem(item, files));
+    toast.show = true;
+    toast.message = "您选择的文件已删除";
   }
 };
 
@@ -89,6 +103,9 @@ const handleFileUpdate = (file) => {
   const oldFile = selectedItems.value[0];
   const index = files.value.findIndex((file) => file.id === oldFile.id);
   files.value.splice(index, 1, file);
+
+  toast.show = true;
+  toast.message = "文件名修改成功";
 };
 </script>
 
