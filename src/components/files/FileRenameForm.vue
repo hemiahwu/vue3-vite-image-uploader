@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="handleSubmit">
-    <input type="text" class="form-control" v-model="file.name" />
+    <input v-focus type="text" class="form-control" v-model="file.name" />
     <div class="d-flex flex-row-reverse mt-3">
       <button class="btn btn-primary" type="submit">确定</button>
       <button class="btn btn-outline-secondary me-2">取消</button>
