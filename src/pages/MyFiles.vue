@@ -4,6 +4,7 @@
       :selectedItems="selectedItems"
       @remove="hadnleRemove"
       @rename="showModal = true"
+      @files-choosen="choosenFiles = $event"
     />
     <div class="d-flex justify-content-between align-items-center py-2">
       <h6 class="text-muted mb-0">文件</h6>
@@ -31,6 +32,8 @@
       position="bottom-left"
       @hide="toast.show = false"
     />
+
+    <div v-if="choosenFiles.length">上传中...</div>
   </div>
 </template>
 
@@ -47,6 +50,14 @@ import { ref, onMounted, reactive, watchEffect, watch } from "vue";
 const files = ref([]);
 const selectedItems = ref([]);
 const showModal = ref(false);
+const choosenFiles = ref([]);
+
+watch(
+  () => choosenFiles.value,
+  () => {
+    console.log(choosenFiles.value);
+  }
+);
 
 const query = reactive({
   _sort: "name",

@@ -9,10 +9,7 @@
       pb-3
     "
   >
-    <button class="btn btn-outline-primary">
-      <icon-upload />
-      上传文件
-    </button>
+    <FileChooser @files-choosen="$emit('files-choosen', $event)" />
 
     <div class="action-buttons" v-show="selectedItems.length">
       <button
@@ -36,6 +33,7 @@
   </div>
 </template>
 <script setup>
+import FileChooser from "../components/uploader/file-chooser/FileChooser.vue";
 const props = defineProps({
   selectedItems: {
     type: Array,
