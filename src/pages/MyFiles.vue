@@ -13,7 +13,12 @@
     <teleport to="#search-form">
       <SearchForm v-model="query.q" />
     </teleport>
-    <FilesList :files="files" @select-change="handleSelectChange($event)" />
+    <DropZone
+      @files-dropped="choosenFiles = $event"
+      :showMessage="!files.length"
+    >
+      <FilesList :files="files" @select-change="handleSelectChange($event)" />
+    </DropZone>
     <app-modal
       title="文件重命名"
       :show="showModal && selectedItems.length === 1"
@@ -43,6 +48,7 @@ import FilesList from "../components/files/FilesList.vue";
 import SortToggler from "../components/SortToggler.vue";
 import SearchForm from "../components/SearchForm.vue";
 import FileRenameForm from "../components/files/FileRenameForm.vue";
+import DropZone from "../components/uploader/file-chooser/DropZone.vue";
 import axios from "axios";
 
 import { ref, onMounted, reactive, watchEffect, watch } from "vue";
